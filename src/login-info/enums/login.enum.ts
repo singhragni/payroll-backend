@@ -1,0 +1,13 @@
+export enum LOGIN_STATUS{
+    SUCCESS = 'SUCCESS',
+    FAILURE = 'FAILURE'
+}
+
+
+export enum LOGIN_METHOD {
+    DEFAULT = 'DEFAULT',
+    DEFAULT_MFA = 'DEFAULT_MFA',
+    GOOGLE_AUTH = 'GOOGLE_AUTH',
+    MOBILE_AUTH = 'MOBILE_AUTH',
+  }
+  
