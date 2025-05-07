@@ -26,16 +26,16 @@ export class signOutMessage {
   message: string;
 }
 
-export class Token {
-  @ApiProperty({
-    description: "The User access token",
-    example: "ABCvdcdfvbhdfbghfdbgvhfggfngdnfvndf",
-  })
-  accessToken: string;
+// export class Token {
+//   @ApiProperty({
+//     description: "The User access token",
+//     example: "ABCvdcdfvbhdfbghfdbgvhfggfngdnfvndf",
+//   })
+//   accessToken: string;
 
-  @ApiProperty({
-    description: "The User refresh token",
-    example: "ABCXGVgvddfvddjnvdsnfvdf",
-  })
-  refreshToken: string;
-}
+//   @ApiProperty({
+//     description: "The User refresh token",
+//     example: "ABCXGVgvddfvddjnvdsnfvdf",
+//   })
+//   refreshToken: string;
+// }

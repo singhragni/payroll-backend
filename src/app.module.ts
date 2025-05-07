@@ -23,6 +23,7 @@ import { Payroll } from "./common/entities/payroll.entity";
 import { LoginInfoModule } from "./login-info/login-info.module";
 import { DatabaseModule } from "./database/database.module";
 import { ConfigWrapperService } from "./common/config/config.service";
+import { EarningTypeEntity } from "./common/entities/earning-component.entity";
 
 @Module({
   imports: [
@@ -37,7 +38,7 @@ import { ConfigWrapperService } from "./common/config/config.service";
         username: config.databaseUsername,
         password: config.databasePassword,
         database: config.databaseName,
-        entities: [User, LoginInfo, EmployeeDetails, Payroll],
+        entities: [User, LoginInfo, EmployeeDetails, Payroll,EarningTypeEntity ],
         synchronize: true,
       }),
     }),

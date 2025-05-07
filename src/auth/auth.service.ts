@@ -12,6 +12,7 @@ import { LOGIN_METHOD, LOGIN_STATUS } from "src/login-info/enums/login.enum";
 import { LoginInfoService } from "src/login-info/login-info.service";
 import { ConfigWrapperService } from "src/common/config/config.service";
 import { User_Message } from "./constant/user-message";
+import { Response } from "express";
 
 @Injectable()
 export class AuthService {
@@ -26,6 +27,7 @@ export class AuthService {
     userDetails: UserModel,
     clientType: DEVICE_TYPE,
     useragent: UserAgentModel,
+    response: Response
   ) {
     const claimsPayloadDetails =
       claimFromUserDetails(userDetails) || null;
@@ -43,14 +45,22 @@ export class AuthService {
       LOGIN_METHOD.DEFAULT,
       User_Message.SIGN_IN,
     );
+    
 
+    response.cookie('accessToken', accessToken,{
+      httpOnly: true,
+      secure:  process.env.NODE_ENV === 'production',
+      sameSite: 'strict'
+    });
+
+    response.cookie('refreshToken', {
+      httpOnly: true,
+      secure:  process.env.NODE_ENV === 'production',
+      sameSite: 'strict'
+    })
     return new AuthenticateUser({
       status: AuthenticateStatus.AUTHENTICATED,
       isMFAEnabled: false,
-      token: {
-        accessToken,
-        refreshToken,
-      },
     });
   }
 
@@ -70,6 +80,8 @@ export class AuthService {
 
   public async generateToken(userDetails: any) {
     const { accessToken, refreshToken } = await this.signToken(userDetails);
+
+
     return new Token({
       accessToken: accessToken,
       refreshToken: refreshToken,

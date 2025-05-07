@@ -9,6 +9,7 @@ import { AllExceptionsFilter } from "./common/filters/all-exceptions.filter";
 import { JwtGlobalGuard } from "./auth/guards/jwt-global.guard";
 import { ResponseInterceptor } from "./common/interceptors/response.interceptor";
 import { HttpExceptionFilter } from "./common/filters/http-exception.filter";
+import cookieParser from "cookie-parser";
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
@@ -43,6 +44,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("api", app, document);
+  app.use(cookieParser());
   const PORT = process.env.PORT ?? 3000;
   await app.listen(PORT);
 

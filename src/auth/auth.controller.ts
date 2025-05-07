@@ -1,4 +1,4 @@
-import { Body, Controller, Logger, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Logger, Post, Req, Res, UseGuards } from "@nestjs/common";
 import { UserService } from "src/user/user.service";
 import { LoginDto } from "./dto/login.dto";
 import { Request } from "express";
@@ -18,6 +18,7 @@ import { instanceToPlain } from "class-transformer";
 import { claimFromUserDetails } from "./utills/auth.util";
 import { AuthenticateUser, signOutMessage } from "./models/authenticate-user.model";
 import { Token } from "./models/token.model";
+import { Response } from "express";
 
 @ApiTags("auth")
 @Controller("auth")
@@ -48,6 +49,7 @@ export class AuthController {
   public async signIn(
     @Req() request: Request,
     @Body() loginDto: LoginDto,
+    @Res({ passthrough: true }) response:Response
   ): Promise<AuthenticateUser> {
     {
       const { username, password } = loginDto;
@@ -65,7 +67,11 @@ export class AuthController {
         `Login request made from ${request.clientType} application.`,
       );
       this.logger.log(`sign-in request initiated for user :${username}`);
-      return this.authService.signIn(userDetails, clientType, useragent);
+
+
+      return await this.authService.signIn(userDetails, clientType, useragent, response);
+        
+    
     }
   }
 
