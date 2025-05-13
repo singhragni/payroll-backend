@@ -24,6 +24,9 @@ import { LoginInfoModule } from "./login-info/login-info.module";
 import { DatabaseModule } from "./database/database.module";
 import { ConfigWrapperService } from "./common/config/config.service";
 import { EarningTypeEntity } from "./common/entities/earning-component.entity";
+import { Project } from "./common/entities/project.entity";
+import { EmployeePractice } from "./common/entities/employee01.entity";
+import { Department } from "./common/entities/department.entity";
 
 @Module({
   imports: [

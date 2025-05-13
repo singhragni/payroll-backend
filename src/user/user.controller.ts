@@ -10,6 +10,7 @@ export class UserController {
     async signUp(@Body()  createUserDto:CreateUserDto){
         try{
             //return this.userService.creatUser(createUserDto)
+            return {name:"ragini"}
         }
         catch(error){
             throw error;

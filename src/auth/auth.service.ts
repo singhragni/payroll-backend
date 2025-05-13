@@ -49,13 +49,13 @@ export class AuthService {
 
     response.cookie('accessToken', accessToken,{
       httpOnly: true,
-      secure:  process.env.NODE_ENV === 'production',
+      secure:  false,
       sameSite: 'strict'
     });
 
     response.cookie('refreshToken', {
       httpOnly: true,
-      secure:  process.env.NODE_ENV === 'production',
+      secure:  false,
       sameSite: 'strict'
     })
     return new AuthenticateUser({

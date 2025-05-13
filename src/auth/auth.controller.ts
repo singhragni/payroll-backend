@@ -1,4 +1,12 @@
-import { Body, Controller, Logger, Post, Req, Res, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Logger,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from "@nestjs/common";
 import { UserService } from "src/user/user.service";
 import { LoginDto } from "./dto/login.dto";
 import { Request } from "express";
@@ -16,7 +24,10 @@ import { Public } from "src/common/decorators/public.decorators";
 import { UserDetails } from "./models/user-details.model";
 import { instanceToPlain } from "class-transformer";
 import { claimFromUserDetails } from "./utills/auth.util";
-import { AuthenticateUser, signOutMessage } from "./models/authenticate-user.model";
+import {
+  AuthenticateUser,
+  signOutMessage,
+} from "./models/authenticate-user.model";
 import { Token } from "./models/token.model";
 import { Response } from "express";
 
@@ -49,7 +60,7 @@ export class AuthController {
   public async signIn(
     @Req() request: Request,
     @Body() loginDto: LoginDto,
-    @Res({ passthrough: true }) response:Response
+    @Res({ passthrough: true }) response: Response,
   ): Promise<AuthenticateUser> {
     {
       const { username, password } = loginDto;
@@ -68,24 +79,25 @@ export class AuthController {
       );
       this.logger.log(`sign-in request initiated for user :${username}`);
 
-
-      return await this.authService.signIn(userDetails, clientType, useragent, response);
-        
-    
+      return await this.authService.signIn(
+        userDetails,
+        clientType,
+        useragent,
+        response,
+      );
     }
   }
 
   @Post("sign-out")
   @ApiOperation({
     summary: "Sign-Out",
-    description: "Sign out User."
+    description: "Sign out User.",
   })
   @ApiResponse({
     status: 200,
     description: "SuccessFully sign-out.",
-    type:signOutMessage
+    type: signOutMessage,
   })
-  
   async signOut(@Req() request: Request): Promise<signOutMessage> {
     this.logger.log(`User ${request?.user} - sign out. `);
     return { message: "You have been successfully logout." };
@@ -98,7 +110,7 @@ export class AuthController {
   @ApiResponse({
     status: 200,
     description: "Tokens successfully refreshed",
-    type: Token
+    type: Token,
   })
   @ApiResponse({
     status: 401,
@@ -110,9 +122,16 @@ export class AuthController {
   })
   async refreshToken(@Req() request: Request): Promise<Token> {
     const { iat, exp, ...claims } = request.user as any;
-   const userDetail = claimFromUserDetails(claims);
-   
+    const userDetail = claimFromUserDetails(claims);
+
     this.logger.log(`refresh token request for user:  ${userDetail?.email}`);
     return this.authService.generateToken(userDetail);
   }
+
+
+  @Post("test")
+  async accessData(){
+    return {name:"ragini singh"}
+  }
+
 }

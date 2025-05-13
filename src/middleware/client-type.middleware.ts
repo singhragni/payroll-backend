@@ -10,7 +10,6 @@ export class ClientTypeMiddleware implements NestMiddleware {
     const userAgent = req.headers["user-agent"];
 
     const agent = useragent.parse(userAgent);
-    console.log("user agentbdcbnsdv ndvb mndv g")
     if (
       agent.device.family === OS_TYPE.OTHER ||
       agent.os.family === OS_TYPE.ANDROID ||

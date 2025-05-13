@@ -31,7 +31,7 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
-  app.enableCors();
+
   app.setGlobalPrefix(globalPrefix);
 
   // Swagger configuration
@@ -41,11 +41,30 @@ async function bootstrap() {
     .setDescription("TRMS application api")
     .setVersion("1.0")
     .addTag("TRMS") // You can add any tags to organize your endpoints
+    .addCookieAuth("accessToken")
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("api", app, document);
   app.use(cookieParser());
+  app.enableCors({
+    origin: "http://localhost:1234",
+    credentials: true,
+    // methods: ['GET', 'POST', 'DELETE']
+  });
+
+
+ app.use((req, res, next) => {
+  res.on('finish', () => {
+    console.log('CORS headers being sent:', {
+      'Access-Control-Allow-Origin': res.getHeader('Access-Control-Allow-Origin'),
+      'Access-Control-Allow-Credentials': res.getHeader('Access-Control-Allow-Credentials'),
+    });
+  });
+  next();
+});
+
   const PORT = process.env.PORT ?? 3000;
+
   await app.listen(PORT);
 
   Logger.log(
